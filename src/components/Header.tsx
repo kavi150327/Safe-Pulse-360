@@ -44,11 +44,11 @@ export const Header: React.FC<HeaderProps> = ({ systemStatus, onReset, isBackend
 
       {/* Right Controls & Status */}
       <div className="flex items-center gap-6">
-        {/* Backend Connectivity Badge */}
+        {/* System Status Badge */}
         <div className="flex items-center gap-2 text-xs font-semibold px-3 py-1.5 rounded-lg bg-slate-900 border border-slate-800">
-          <span className={`w-2 h-2 rounded-full ${isBackendConnected ? 'bg-emerald-500 animate-ping' : 'bg-rose-500'}`}></span>
-          <span className={isBackendConnected ? 'text-emerald-400' : 'text-rose-400'}>
-            {isBackendConnected ? 'FastAPI Connected' : 'Connecting Backend...'}
+          <span className="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-ping"></span>
+          <span className="text-emerald-400 font-bold">
+            SafePulse Engine Online
           </span>
         </div>
 
