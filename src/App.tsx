@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import { Route, Switch, useLocation } from 'wouter';
+import { Router, Route, Switch, useLocation } from 'wouter';
+import { useHashLocation } from 'wouter/use-hash-location';
 import { Header } from './components/Header';
 import { Sidebar } from './components/Sidebar';
 import { OptimizationModal } from './components/OptimizationModal';
@@ -19,7 +20,7 @@ import { DashboardKpis, IntersectionData, OptimizationResult, fetchApi } from '.
 import { Toaster } from './components/ui/toaster';
 
 export function App() {
-  const [location, setLocation] = useLocation();
+  const [location, setLocation] = useHashLocation();
   const [kpis, setKpis] = useState<DashboardKpis | null>(null);
   const [intersections, setIntersections] = useState<IntersectionData[]>([]);
   const [isBackendConnected, setIsBackendConnected] = useState(false);
@@ -86,73 +87,75 @@ export function App() {
         <Sidebar />
 
         <main className="flex-1 overflow-y-auto p-6 lg:p-8">
-          <Switch>
-            <Route path="/">
-              <LiveTrafficPage intersections={intersections} onRefresh={refreshData} />
-            </Route>
+          <Router hook={useHashLocation}>
+            <Switch>
+              <Route path="/">
+                <LiveTrafficPage intersections={intersections} onRefresh={refreshData} />
+              </Route>
 
-            <Route path="/dashboard">
-              <DashboardPage
-                kpis={kpis}
-                intersections={intersections}
-                onNavigate={(href) => setLocation(href)}
-                onRunOptimization={handleTriggerOpt}
-              />
-            </Route>
+              <Route path="/dashboard">
+                <DashboardPage
+                  kpis={kpis}
+                  intersections={intersections}
+                  onNavigate={(href) => setLocation(href)}
+                  onRunOptimization={handleTriggerOpt}
+                />
+              </Route>
 
-            <Route path="/demos">
-              <DemosShowcasePage />
-            </Route>
+              <Route path="/demos">
+                <DemosShowcasePage />
+              </Route>
 
-            <Route path="/traffic">
-              <LiveTrafficPage intersections={intersections} onRefresh={refreshData} />
-            </Route>
+              <Route path="/traffic">
+                <LiveTrafficPage intersections={intersections} onRefresh={refreshData} />
+              </Route>
 
-            <Route path="/intersections">
-              <IntersectionsPage
-                intersections={intersections}
-                onRunOptimization={handleTriggerOpt}
-              />
-            </Route>
+              <Route path="/intersections">
+                <IntersectionsPage
+                  intersections={intersections}
+                  onRunOptimization={handleTriggerOpt}
+                />
+              </Route>
 
-            <Route path="/prediction">
-              <PredictionPage />
-            </Route>
+              <Route path="/prediction">
+                <PredictionPage />
+              </Route>
 
-            <Route path="/optimization">
-              <OptimizationPage
-                latestResult={latestOptResult}
-                onOptimizationDone={handleOptDone}
-              />
-            </Route>
+              <Route path="/optimization">
+                <OptimizationPage
+                  latestResult={latestOptResult}
+                  onOptimizationDone={handleOptDone}
+                />
+              </Route>
 
-            <Route path="/emergency">
-              <EmergencyCorridorPage
-                intersections={intersections}
-                onCorridorActivated={() => refreshData()}
-              />
-            </Route>
+              <Route path="/emergency">
+                <EmergencyCorridorPage
+                  intersections={intersections}
+                  onCorridorActivated={() => refreshData()}
+                />
+              </Route>
 
-            <Route path="/safety">
-              <SafetyRadarPage />
-            </Route>
+              <Route path="/safety">
+                <SafetyRadarPage />
+              </Route>
 
-            <Route path="/railway">
-              <RailwaySafetyPage />
-            </Route>
+              <Route path="/railway">
+                <RailwaySafetyPage />
+              </Route>
 
-            <Route path="/analytics">
-              <AnalyticsPage />
-            </Route>
+              <Route path="/analytics">
+                <AnalyticsPage />
+              </Route>
 
-            <Route path="/history">
-              <HistoryPage />
-            </Route>
+              <Route path="/history">
+                <HistoryPage />
+              </Route>
 
-            <Route path="/system">
-              <SystemMonitoringPage onResetDb={handleResetDb} />
-            </Route>
-          </Switch>
+              <Route path="/system">
+                <SystemMonitoringPage onResetDb={handleResetDb} />
+              </Route>
+            </Switch>
+          </Router>
         </main>
       </div>
 
