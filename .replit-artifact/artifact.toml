@@ -1,0 +1,28 @@
+kind = "web"
+previewPath = "/"
+title = "Safe Pulse AI"
+description = "A simulated AI urban traffic command center for exploring traffic intelligence, prediction, signal optimization, emergency corridors, safety events, and scenario-based demonstrations."
+version = "1.0.0"
+id = "artifacts/safe-pulse-ai"
+router = "path"
+
+[[services]]
+name = "web"
+paths = [ "/" ]
+localPort = 24095
+
+[services.development]
+run = "pnpm --filter @workspace/safe-pulse-ai run dev"
+
+[services.production]
+build = [ "pnpm", "--filter", "@workspace/safe-pulse-ai", "run", "build" ]
+serve = "static"
+publicDir = "artifacts/safe-pulse-ai/dist/public"
+
+[[services.production.rewrites]]
+from = "/*"
+to = "/index.html"
+
+[services.env]
+PORT = "24095"
+BASE_PATH = "/"
