@@ -242,6 +242,68 @@ function getFallbackData<T>(endpoint: string, options?: RequestInit): T {
     } as unknown as T;
   }
 
+  if (endpoint.includes('/optimization/history')) {
+    return [
+      { id: 'OPT-1001', timestamp: new Date(Date.now() - 3600000).toISOString(), algorithm: 'QUBO / Quantum Simulated Annealing', iterations: 1500, execution_time_ms: 38.4, objective_value: 14.2, status: 'COMPLETED' },
+      { id: 'OPT-1002', timestamp: new Date(Date.now() - 7200000).toISOString(), algorithm: 'QUBO / Quantum Simulated Annealing', iterations: 1500, execution_time_ms: 42.1, objective_value: 16.5, status: 'COMPLETED' },
+      { id: 'OPT-1003', timestamp: new Date(Date.now() - 10800000).toISOString(), algorithm: 'Genetic Algorithm Baseline', iterations: 2000, execution_time_ms: 124.8, objective_value: 22.8, status: 'COMPLETED' }
+    ] as unknown as T;
+  }
+
+  if (endpoint.includes('/emergency/history')) {
+    return [
+      { id: 'EMG-9021', timestamp: new Date(Date.now() - 1800000).toISOString(), vehicle_type: 'Ambulance (Code 3)', route: ['I5', 'I1', 'I4'], normal_eta_sec: 240, optimized_eta_sec: 110, time_saved_sec: 130 },
+      { id: 'EMG-9022', timestamp: new Date(Date.now() - 5400000).toISOString(), vehicle_type: 'Fire Engine Heavy', route: ['I6', 'I1', 'I2'], normal_eta_sec: 310, optimized_eta_sec: 145, time_saved_sec: 165 }
+    ] as unknown as T;
+  }
+
+  if (endpoint.includes('/traffic') && !endpoint.includes('/traffic/simulate') && !endpoint.includes('/traffic/junction-4road')) {
+    return [
+      { id: 'OBS-501', timestamp: new Date(Date.now() - 60000).toISOString(), intersection_id: 'Central Junction (I1)', vehicle_count: 132, density: 65.0, queue_length: 18, wait_time: 38 },
+      { id: 'OBS-502', timestamp: new Date(Date.now() - 120000).toISOString(), intersection_id: 'Market Road (I2)', vehicle_count: 184, density: 82.0, queue_length: 34, wait_time: 56 },
+      { id: 'OBS-503', timestamp: new Date(Date.now() - 180000).toISOString(), intersection_id: 'Railway Junction (I3)', vehicle_count: 98, density: 54.0, queue_length: 14, wait_time: 31 }
+    ] as unknown as T;
+  }
+
+  if (endpoint.includes('/analytics')) {
+    return {
+      chart_data: [
+        { time: '10:00', density: 45, wait_time: 25, co2: 42 },
+        { time: '10:15', density: 58, wait_time: 32, co2: 55 },
+        { time: '10:30', density: 72, wait_time: 48, co2: 78 },
+        { time: '10:45', density: 84, wait_time: 56, co2: 92 },
+        { time: '11:00', density: 63, wait_time: 35, co2: 58 },
+        { time: '11:15', density: 52, wait_time: 28, co2: 46 }
+      ],
+      summary: {
+        total_intersections: 6,
+        avg_density: 62.5,
+        total_queue: 114,
+        avg_wait_sec: 37.3
+      }
+    } as unknown as T;
+  }
+
+  if (endpoint.includes('/system/status')) {
+    return {
+      ui_status: "ONLINE",
+      api_status: "HEALTHY",
+      db_status: "CONNECTED",
+      qubo_status: "READY",
+      sim_status: "ACTIVE",
+      total_routes_ok: "21/21 OK"
+    } as unknown as T;
+  }
+
+  if (endpoint.includes('/system/events')) {
+    return [
+      { id: 1, timestamp: new Date(Date.now() - 30000).toISOString(), event_type: 'QUBO_SOLVE', message: 'Optimal signal matrix calculated in 38.4ms', severity: 'SUCCESS' },
+      { id: 2, timestamp: new Date(Date.now() - 90000).toISOString(), event_type: 'GREEN_WAVE', message: 'Emergency corridor activated for Ambulance KA-01-E-9021', severity: 'SUCCESS' },
+      { id: 3, timestamp: new Date(Date.now() - 180000).toISOString(), event_type: 'WRONG_WAY', message: 'Camera CAM-J02 detected Westbound vehicle on Eastbound lane', severity: 'WARNING' },
+      { id: 4, timestamp: new Date(Date.now() - 300000).toISOString(), event_type: 'RAILWAY_GATE', message: 'I3 Crossing gate synchronized with train telemetry', severity: 'SUCCESS' }
+    ] as unknown as T;
+  }
+
   if (endpoint.includes('/incidents')) return simulatedIncidents as unknown as T;
   if (endpoint.includes('/wrongway')) return simulatedWrongWay as unknown as T;
   if (endpoint.includes('/accidents')) return simulatedAccidents as unknown as T;
