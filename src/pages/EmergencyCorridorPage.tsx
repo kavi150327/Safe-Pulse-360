@@ -38,6 +38,15 @@ export const EmergencyCorridorPage: React.FC<EmergencyCorridorPageProps> = ({
     }
   };
 
+  const availableIntersections = (intersections && intersections.length > 0) ? intersections : [
+    { id: 'I1', name: 'Central Junction' },
+    { id: 'I2', name: 'Market Road' },
+    { id: 'I3', name: 'Railway Junction' },
+    { id: 'I4', name: 'Hospital Road' },
+    { id: 'I5', name: 'Tech Park' },
+    { id: 'I6', name: 'Highway Junction' }
+  ];
+
   return (
     <div className="space-y-6 pb-8 animate-in fade-in duration-300">
       {/* Page Header */}
@@ -84,7 +93,7 @@ export const EmergencyCorridorPage: React.FC<EmergencyCorridorPageProps> = ({
                 onChange={(e) => setStart(e.target.value)}
                 className="w-full bg-slate-950 border border-slate-800 text-white rounded-xl p-2.5 font-medium"
               >
-                {intersections.map((i) => (
+                {availableIntersections.map((i) => (
                   <option key={i.id} value={i.id}>
                     {i.id} - {i.name}
                   </option>
@@ -100,7 +109,7 @@ export const EmergencyCorridorPage: React.FC<EmergencyCorridorPageProps> = ({
                 onChange={(e) => setDest(e.target.value)}
                 className="w-full bg-slate-950 border border-slate-800 text-white rounded-xl p-2.5 font-medium"
               >
-                {intersections.map((i) => (
+                {availableIntersections.map((i) => (
                   <option key={i.id} value={i.id}>
                     {i.id} - {i.name}
                   </option>

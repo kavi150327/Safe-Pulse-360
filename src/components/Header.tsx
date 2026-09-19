@@ -46,9 +46,9 @@ export const Header: React.FC<HeaderProps> = ({ systemStatus, onReset, isBackend
       <div className="flex items-center gap-6">
         {/* System Status Badge */}
         <div className="flex items-center gap-2 text-xs font-semibold px-3 py-1.5 rounded-lg bg-slate-900 border border-slate-800">
-          <span className="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-ping"></span>
-          <span className="text-emerald-400 font-bold">
-            SafePulse Engine Online
+          <span className={`w-2.5 h-2.5 rounded-full ${isBackendConnected ? 'bg-emerald-500 animate-ping' : 'bg-cyan-400 animate-pulse'}`}></span>
+          <span className={isBackendConnected ? 'text-emerald-400 font-bold' : 'text-cyan-300 font-bold'}>
+            {isBackendConnected ? 'FastAPI Backend Online' : 'SafePulse Engine Online (Simulation Active)'}
           </span>
         </div>
 
