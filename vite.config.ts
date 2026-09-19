@@ -4,7 +4,7 @@ import tailwindcss from '@tailwindcss/vite';
 import { defineConfig } from 'vite';
 
 export default defineConfig({
-  base: './',
+  base: '/Safe-Pulse-360/',
   plugins: [react(), tailwindcss()],
   resolve: {
     alias: {
